@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: node-app-vs
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - node-app-gateway
+  http:
+    - match:
+      # - headers:
+      #     X-ABTEST:
+      #       exact: TEST
+      route:
+        - destination:
+            host: node-app
+            subset: v1
+            port:
+              number: 8080
+          weight: 50
+        - destination:
+            host: node-app
+            subset: v2
+            port:
+              number: 8080
+          weight: 50
